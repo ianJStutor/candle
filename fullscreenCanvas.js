@@ -1,3 +1,5 @@
+console.log("fullscreenCanvas.js");
+
 export default function fullscreenCanvas(selector = "canvas") {
     try {
         // get canvas element

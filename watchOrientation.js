@@ -1,3 +1,5 @@
+console.log("watchOrientation.js");
+
 export default function watchOrientation() {
     const orientation = { absolute: true, alpha: 0, beta: 90, gamma: 0 };
     window?.addEventListener("deviceorientation", ({ absolute, alpha, beta, gamma }) => {
