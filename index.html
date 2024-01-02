@@ -11,6 +11,17 @@
     </style>
     <link rel="stylesheet" href="assets/css/footernav.css">
     <script type="module" src="main.js"></script>
+    <!-- testing only -->
+    <script src="//cdn.jsdelivr.net/npm/eruda"></script>
+    <script>
+        let el = document.createElement('div');
+        document.body.appendChild(el);
+        
+        eruda.init({
+            container: el,
+            tool: ['console', 'elements']
+        });
+    </script>
 </head>
 <body>
     <canvas></canvas>

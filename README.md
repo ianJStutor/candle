@@ -4,7 +4,7 @@
 
 ## Description
 
-It started as a challenge: allow the user to blow out a candle by literally blowing on their phone! Glutton for punishment that I am, I also through in some orientation sensing so the flame moves with the phone tilt.
+It started as a challenge: allow the user to blow out a candle by literally blowing on their phone! Glutton for punishment that I am, I also threw in some orientation sensing so the flame moves with the phone tilt.
 
 Built with vanilla JavaScript, my favorite flavor!
 
