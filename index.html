@@ -14,12 +14,14 @@
     <!-- testing only -->
     <script src="//cdn.jsdelivr.net/npm/eruda"></script>
     <script>
-        let el = document.createElement('div');
-        document.body.appendChild(el);
-        
-        eruda.init({
-            container: el,
-            tool: ['console', 'elements']
+        document.addEventListener("DOMContentLoaded", () => {
+            let el = document.createElement('div');
+            document.body.appendChild(el);
+            
+            eruda.init({
+                container: el,
+                tool: ['console', 'elements']
+            });
         });
     </script>
 </head>
