@@ -7,6 +7,7 @@ const ctx = fullscreenCanvas();
 const orientation = watchOrientation();
 const touches = watchTouches();
 const candle = new Candle(ctx, { x: ctx.canvas.width/4, y: ctx.canvas.height/2, w: ctx.canvas.width/2, h: ctx.canvas.height/2, flameStart: {x: ctx.canvas.width/2, y: ctx.canvas.height/2}, flameEnd: {x: ctx.canvas.width/2, y: ctx.canvas.height/5} });
+const flameSize = ctx.canvas.height * 3/10;
 
 var animating = true;
 requestAnimationFrame(loop);
@@ -43,6 +44,11 @@ function loop() {
         ctx.restore();
     }
     //candle
+    const { gamma } = orientation;
+    candle.settings({ flameEnd: {
+        x: (width * 0.5) + Math.cos(-gamma) * flameSize,
+        y: (height * 0.5) + Math.sin(-gamma) * flameSize
+    } });
     candle.draw();
     //repeat
     if (animating) requestAnimationFrame(loop);
