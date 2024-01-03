@@ -44,7 +44,7 @@ function loop() {
         ctx.restore();
     }
     //candle
-    const { gamma } = orientation;
+    const gamma = Math.max(Math.min(orientation.gamma, Math.PI*4/5), Math.PI*1/5);
     candle.settings({ flameEnd: {
         x: (width * 0.5) + Math.cos(-gamma) * flameSize,
         y: (height * 0.5) + Math.sin(-gamma) * flameSize
