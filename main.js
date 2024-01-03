@@ -2,6 +2,7 @@ import fullscreenCanvas from "./fullscreenCanvas.js";
 import watchOrientation from "./watchOrientation.js";
 import watchTouches from "./watchTouches.js";
 import Candle from "./candle.js";
+import { degToRad, lerp } from "./lib.js";
 
 const ctx = fullscreenCanvas();
 const orientation = watchOrientation();
@@ -22,9 +23,9 @@ function loop() {
         ctx.save();
         ctx.fillStyle = "white";
         ctx.font = "16px Ariel";
-        ctx.fillText(`α: ${alpha}`, 5, 21);
-        ctx.fillText(`β: ${beta}`, 5, 42);
-        ctx.fillText(`γ: ${gamma}`, 5, 63);
+        ctx.fillText(`α: ${degToRad(alpha)}`, 5, 21);
+        ctx.fillText(`β: ${degToRad(beta)}`, 5, 42);
+        ctx.fillText(`γ: ${degToRad(gamma)}`, 5, 63);
         ctx.restore();
     }
     //touch testing
@@ -44,7 +45,7 @@ function loop() {
         ctx.restore();
     }
     //candle
-    const gamma = Math.max(Math.min(orientation.gamma, Math.PI*4/5), Math.PI*1/5);
+    const gamma = Math.max(Math.min(degToRad(orientation.gamma), Math.PI*4/5), Math.PI*1/5);
     candle.settings({ flameEnd: {
         x: (width * 0.5) + Math.cos(-gamma) * flameSize,
         y: (height * 0.5) + Math.sin(-gamma) * flameSize
