@@ -45,7 +45,7 @@ function loop() {
         ctx.restore();
     }
     //candle
-    const gamma = degToRad(orientation.gamma)+Math.PI/2;//Math.max(Math.min(degToRad(orientation.gamma), 0.65), -0.65);
+    const gamma = Math.max(Math.min(degToRad(orientation.gamma), 0.65), -0.65) +Math.PI/2;
     candle.settings({ flameEnd: {
         x: (width * 0.5) + Math.cos(-gamma) * flameSize,
         y: (height * 0.5) + Math.sin(-gamma) * flameSize
