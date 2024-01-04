@@ -14,10 +14,10 @@ export default class Candle {
             color: "white", //candle color
             numParticles: 1000, //total particles in pool
             batch: 10, //create particles in batches
-            rMultiplier: 0.95, //particle radius change per frame
-            vxMultiplier: 0.9, //particle x movement change per frame
+            rMultiplier: 0.9, //particle radius change per frame
+            vxMultiplier: 0.85, //particle x movement change per frame
             vyMultiplier: 0.99, //particle y movement change per frame
-            maxLife: 200, //frames before respawn
+            maxLife: 25, //frames before respawn
             minSpeed: 3, //pixels per frame
             maxSpeed: 10, //pixels per frame
             minRadius: Math.max(width/35, 10), //pixels

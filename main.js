@@ -8,7 +8,7 @@ const ctx = fullscreenCanvas();
 const orientation = watchOrientation();
 const touches = watchTouches();
 const candle = new Candle(ctx);
-const flameSize = ctx.canvas.height * 1/5;
+const flameSize = Math.min(ctx.canvas.width, ctx.canvas.height) * 1/5;
 
 var animating = true;
 requestAnimationFrame(loop);
