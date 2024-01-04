@@ -15,7 +15,7 @@ export default class Candle {
             numParticles: 1000, //total particles in pool
             batch: 10, //create particles in batches
             rMultiplier: 0.9, //particle radius change per frame
-            vxMultiplier: 0.9, //particle x movement change per frame
+            vxMultiplier: 0.95, //particle x movement change per frame
             vyMultiplier: 0.99, //particle y movement change per frame
             maxLife: 25, //frames before respawn
             minSpeed: 2, //pixels per frame
@@ -78,8 +78,10 @@ class CandleFlame {
         const vy = Math.sin(angle) * speed;
         const x = flameStart.x;
         const y = flameStart.y;
+        const prevX = x;
+        const prevY = y;
         const life = maxLife;
-        const particle = { x, y, vx, vy, r, hue, life, maxLife };
+        const particle = { x, y, prevX, prevY, vx, vy, r, hue, life, maxLife };
         if (p) p = Object.assign(p, particle);
         else this.#particles.push(particle);
     }
@@ -98,6 +100,8 @@ class CandleFlame {
         {
             for (let i=this.#particles.length-1; i>=0; i--) {
                 let p = this.#particles[i];
+                p.prevX = p.x;
+                p.prevY = p.y;
                 p.x += p.vx;
                 p.y += p.vy;
                 p.vx *= vxMultiplier;
@@ -124,11 +128,13 @@ class CandleFlame {
         const { ctx } = this;
         ctx.save();
         ctx.globalCompositeOperation = "lighter";
-        for (let { x, y, r, hue } of this.#particles) {
-            ctx.fillStyle = `hsla(${hue}deg, 100%, 15%, 0.25)`;
+        for (let { x, y, prevX, prevY, r, hue } of this.#particles) {
+            ctx.strokeStyle = `hsla(${hue}deg, 100%, 15%, 0.25)`;
+            ctx.lineWidth = r;
             ctx.beginPath();
-            ctx.arc(x, y, r, 0, Math.PI*2);
-            ctx.fill();
+            ctx.moveTo(prevX, prevY);
+            ctx.lineTo(x, y);
+            ctx.stroke();
         }
         ctx.restore();
     }
