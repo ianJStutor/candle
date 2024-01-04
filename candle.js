@@ -14,14 +14,14 @@ export default class Candle {
             color: "white", //candle color
             numParticles: 2500, //total particles in pool
             batch: 25, //create particles in batches
-            rMultiplier: 0.9, //particle radius change per frame
+            rMultiplier: 0.95, //particle radius change per frame
             vxMultiplier: 0.9, //particle x movement change per frame
             vyMultiplier: 0.99, //particle y movement change per frame
             maxLife: 200, //frames before respawn
             minSpeed: 3, //pixels per frame
             maxSpeed: 10, //pixels per frame
-            minRadius: 15, //pixels
-            maxRadius: 35, //pixels
+            minRadius: Math.max(width/35, 10), //pixels
+            maxRadius: Math.max(width/25, 15), //pixels
             minAngle: -Math.PI, //radians
             maxAngle: 0, //radians
             minHue: -30, //reddish in hsl gamut
@@ -34,10 +34,26 @@ export default class Candle {
     }
     draw() {
         const { ctx } = this;
-        const { x, y, w, h, color, flameStart, flameEnd } = this.options;
+        const { width, height } = ctx.canvas;
+        const { x, y, w, h, color, flameStart, maxRadius } = this.options;
         ctx.fillStyle = color;
-        ctx.fillRect(x, y, w, h);
+        //candle
+        ctx.beginPath();
+        ctx.moveTo(x+w, height);
+        ctx.lineTo(x, height);
+        ctx.lineTo(x, y);
+        ctx.quadraticCurveTo(flameStart.x, flameStart.y+maxRadius*2, x+w, y);
+        ctx.closePath();
+        ctx.fill();
+        //flame
         this.flame.draw();
+        //wick
+        ctx.strokeStyle = "#00000033";
+        ctx.lineWidth = 10;
+        ctx.beginPath();
+        ctx.moveTo(flameStart.x, flameStart.y);
+        ctx.lineTo(flameStart.x, flameStart.y+maxRadius);
+        ctx.stroke();
     }
 }
 
@@ -105,17 +121,10 @@ class CandleFlame {
     draw() {
         this.#update();
         const { ctx } = this;
-        // const { flameStart, flameEnd } = this.options;
-        // ctx.strokeStyle = "red";
-        // ctx.lineWidth = 20;
-        // ctx.beginPath();
-        // ctx.moveTo(flameStart.x, flameStart.y);
-        // ctx.lineTo(flameEnd.x, flameEnd.y);
-        // ctx.stroke();
         ctx.save();
         ctx.globalCompositeOperation = "lighter";
         for (let { x, y, r, hue } of this.#particles) {
-            ctx.fillStyle = `hsla(${hue}deg, 100%, 50%, 0.25)`;
+            ctx.fillStyle = `hsla(${hue}deg, 100%, 15%, 0.25)`;
             ctx.beginPath();
             ctx.arc(x, y, r, 0, Math.PI*2);
             ctx.fill();
