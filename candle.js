@@ -15,17 +15,18 @@ export default class Candle {
             numParticles: 1000, //total particles in pool
             batch: 10, //create particles in batches
             rMultiplier: 0.9, //particle radius change per frame
-            vxMultiplier: 0.85, //particle x movement change per frame
+            vxMultiplier: 0.9, //particle x movement change per frame
             vyMultiplier: 0.99, //particle y movement change per frame
             maxLife: 25, //frames before respawn
-            minSpeed: 3, //pixels per frame
-            maxSpeed: 10, //pixels per frame
+            minSpeed: 2, //pixels per frame
+            maxSpeed: 6, //pixels per frame
             minRadius: Math.max(width/35, 10), //pixels
             maxRadius: Math.max(width/25, 15), //pixels
             minAngle: -Math.PI, //radians
             maxAngle: 0, //radians
             minHue: -30, //reddish in hsl gamut
             maxHue: 60, //yellowish in hsl gamut
+            wickWidth: Math.max(width/100, 3)
         }, overrides);
         this.flame = new CandleFlame(this.ctx, this.options);
     }
@@ -35,7 +36,7 @@ export default class Candle {
     draw() {
         const { ctx } = this;
         const { width, height } = ctx.canvas;
-        const { x, y, w, h, color, flameStart, maxRadius } = this.options;
+        const { x, y, w, h, color, flameStart, maxRadius, wickWidth } = this.options;
         ctx.fillStyle = color;
         //candle
         ctx.beginPath();
@@ -49,7 +50,7 @@ export default class Candle {
         this.flame.draw();
         //wick
         ctx.strokeStyle = "#00000033";
-        ctx.lineWidth = 10;
+        ctx.lineWidth = wickWidth;
         ctx.beginPath();
         ctx.moveTo(flameStart.x, flameStart.y);
         ctx.lineTo(flameStart.x, flameStart.y+maxRadius);
