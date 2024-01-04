@@ -24,7 +24,7 @@ export default class Candle {
             minHue: -30, //reddish in hsl gamut
             maxHue: 60, //yellowish in hsl gamut
         }, overrides);
-        // this.flame = new CandleFlame(this.options);
+        this.flame = new CandleFlame(this.ctx, this.options);
     }
     settings(overrides = {}) {
         this.options = Object.assign(this.options, overrides);
@@ -32,22 +32,34 @@ export default class Candle {
     draw() {
         const { ctx } = this;
         const { x, y, w, h, color, flameStart, flameEnd } = this.options;
-        {
-            //testing only...
-            ctx.fillStyle = color;
-            ctx.fillRect(x, y, w, h);
-            ctx.strokeStyle = "red";
-            ctx.lineWidth = 20;
-            ctx.beginPath();
-            ctx.moveTo(flameStart.x, flameStart.y);
-            ctx.lineTo(flameEnd.x, flameEnd.y);
-            ctx.stroke();
-        }
+        ctx.fillStyle = color;
+        ctx.fillRect(x, y, w, h);
+        this.flame.draw();
     }
 }
 
-// class CandleFlame {
-//     constructor() {
+class CandleFlame {
+    #particles = [];
 
-//     }
-// }
+    constructor(ctx, options) {
+        this.ctx = ctx;
+        this.options = options;
+    }
+    #addParticle() {
+
+    }
+    #update() {
+        
+    }
+    draw() {
+        this.#update();
+        const { ctx } = this;
+        const { flameStart, flameEnd } = this.options;
+        ctx.strokeStyle = "red";
+        ctx.lineWidth = 20;
+        ctx.beginPath();
+        ctx.moveTo(flameStart.x, flameStart.y);
+        ctx.lineTo(flameEnd.x, flameEnd.y);
+        ctx.stroke();
+    }
+}

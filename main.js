@@ -37,7 +37,7 @@ function loop() {
         for (let { clientX, clientY, radiusX, radiusY, rotationAngle, force } of touches) {
             ctx.fillStyle = "#FFCCCC88";
             ctx.beginPath();
-            ctx.ellipse(clientX, clientY, radiusX, radiusY, rotationAngle, 0, Math.PI*2);
+            ctx.ellipse(clientX, clientY, Math.max(radiusX, 10), Math.max(radiusY, 10), rotationAngle, 0, Math.PI*2);
             ctx.fill();
             ctx.fillStyle = "black";
             ctx.fillText(force, clientX, clientY);
