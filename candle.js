@@ -1,17 +1,20 @@
+import { lerp } from "./lib.js";
+
 export default class Candle {
     constructor(ctx, overrides = {}) {
         this.ctx = ctx;
+        const { width, height } = ctx.canvas;
         this.options = Object.assign({
-            x: 0, //candle upper left x
-            y: 50, //candle upper left y
-            w: 100, //cande width
-            h: 100, //candle height
-            flameStart: { x: 50, y: 50 }, //particle spawn position
-            flameEnd: { x: 50, y: 0 }, //particle focus position
+            x: width/4, //candle upper left x
+            y: height/2, //candle upper left y
+            w: width/2, //cande width
+            h: height/2, //candle height
+            flameStart: { x: width/2, y: height/2 }, //particle spawn position
+            flameEnd: { x: width/2, y: 0 }, //particle focus position
             color: "white", //candle color
             numParticles: 2500, //total particles in pool
             batch: 25, //create particles in batches
-            deltaR: -0.8, //particle size change per frame
+            rMultiplier: 0.9, //particle radius change per frame
             vxMultiplier: 0.9, //particle x movement change per frame
             vyMultiplier: 0.99, //particle y movement change per frame
             maxLife: 200, //frames before respawn
@@ -45,21 +48,78 @@ class CandleFlame {
         this.ctx = ctx;
         this.options = options;
     }
-    #addParticle() {
-
+    #addParticle(p) {
+        const {
+            maxLife, minSpeed, maxSpeed, minRadius, maxRadius,
+            minAngle, maxAngle, minHue, maxHue, flameStart
+        } = this.options;
+        const speed = lerp(minSpeed, maxSpeed, Math.random());
+        const angle = lerp(minAngle, maxAngle, Math.random());
+        const r = lerp(minRadius, maxRadius, Math.random());
+        const hue = Math.floor(lerp(minHue, maxHue, Math.random()));
+        const vx = Math.cos(angle) * speed;
+        const vy = Math.sin(angle) * speed;
+        const x = flameStart.x;
+        const y = flameStart.y;
+        const life = maxLife;
+        const particle = { x, y, vx, vy, r, hue, life, maxLife };
+        if (p) p = Object.assign(p, particle);
+        else this.#particles.push(particle);
     }
     #update() {
-        
+        const { numParticles, batch, flameEnd,
+                rMultiplier, vxMultiplier, vyMultiplier } = this.options;
+        //add particle?
+        {
+            const length = this.#particles.length;
+            if (length < numParticles) {
+                const newBatch = Math.min(batch, numParticles - length);
+                for (let i=0; i<newBatch; i++) this.#addParticle();
+            }
+        }
+        //update particles
+        {
+            for (let i=this.#particles.length-1; i>=0; i--) {
+                let p = this.#particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vx *= vxMultiplier;
+                p.vy *= vyMultiplier;
+                p.r *= rMultiplier;
+                p.life--;
+                //remove or reset?
+                if (p.life <= 0 || p.r < 1) {
+                    if (this.#particles.length > numParticles)
+                        this.#particles.splice(i, 1);
+                    else this.#addParticle(p);
+                }
+                //move toward flameEnd
+                else {
+                    const norm = (p.maxLife - p.life) / p.maxLife;
+                    p.x = lerp(p.x, flameEnd.x, norm);
+                    p.y = lerp(p.y, flameEnd.y, norm);
+                }
+            }
+        }
     }
     draw() {
         this.#update();
         const { ctx } = this;
-        const { flameStart, flameEnd } = this.options;
-        ctx.strokeStyle = "red";
-        ctx.lineWidth = 20;
-        ctx.beginPath();
-        ctx.moveTo(flameStart.x, flameStart.y);
-        ctx.lineTo(flameEnd.x, flameEnd.y);
-        ctx.stroke();
+        // const { flameStart, flameEnd } = this.options;
+        // ctx.strokeStyle = "red";
+        // ctx.lineWidth = 20;
+        // ctx.beginPath();
+        // ctx.moveTo(flameStart.x, flameStart.y);
+        // ctx.lineTo(flameEnd.x, flameEnd.y);
+        // ctx.stroke();
+        ctx.save();
+        ctx.globalCompositeOperation = "lighter";
+        for (let { x, y, r, hue } of this.#particles) {
+            ctx.fillStyle = `hsla(${hue}deg, 100%, 50%, 0.25)`;
+            ctx.beginPath();
+            ctx.arc(x, y, r, 0, Math.PI*2);
+            ctx.fill();
+        }
+        ctx.restore();
     }
 }
