@@ -13,7 +13,7 @@ export default class Candle {
             flameEnd: { x: width/2, y: 0 }, //particle focus position
             color: "white", //candle color
             numParticles: 2500, //total particles in pool
-            batch: 10, //create particles in batches
+            batch: 50, //create particles in batches
             rMultiplier: 0.9, //particle radius change per frame
             vxMultiplier: 0.95, //particle x movement change per frame
             vyMultiplier: 0.99, //particle y movement change per frame
