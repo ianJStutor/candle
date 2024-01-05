@@ -37,8 +37,13 @@ export default class Candle {
         const { ctx } = this;
         const { width, height } = ctx.canvas;
         const { x, y, w, h, color, flameStart, maxRadius, wickWidth } = this.options;
-        ctx.fillStyle = color;
         //candle
+        const gradient = ctx.createLinearGradient(x, y+h/2, x+w, y+h/2);
+        gradient.addColorStop(0, "#000000dd");
+        gradient.addColorStop(0.05, color);
+        gradient.addColorStop(0.95, color);
+        gradient.addColorStop(1, "#000000dd");
+        ctx.fillStyle = gradient;
         ctx.beginPath();
         ctx.moveTo(x+w, height);
         ctx.lineTo(x, height);
