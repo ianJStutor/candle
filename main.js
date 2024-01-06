@@ -7,7 +7,7 @@ import { degToRad } from "./lib.js";
 const ctx = fullscreenCanvas();
 const orientation = watchOrientation();
 const touches = watchTouches();
-const candle = new Candle(ctx);
+const candle = new Candle(ctx, { color: "mintcream" });
 const flameSize = Math.min(ctx.canvas.width, ctx.canvas.height) * 1/5;
 
 var animating = true;
