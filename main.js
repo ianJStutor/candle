@@ -9,10 +9,15 @@ const orientation = watchOrientation();
 const touches = watchTouches();
 const candle = new Candle(ctx, { color: "mintcream" });
 const flameSize = Math.min(ctx.canvas.width, ctx.canvas.height) * 1/5;
+const targetFPS = 1000/60; // 60 frames per second
 
 var animating = true;
+var oldT;
 requestAnimationFrame(loop);
-function loop() {
+function loop(t) {
+    //FPS (calculate normalized time elapsed since previous frame)
+    const normTime = (t - (oldT ?? t))/targetFPS;
+    oldT = t;
     //dimensions
     const { width, height } = ctx.canvas;
     //erase
@@ -50,7 +55,7 @@ function loop() {
         x: (width * 0.5) + Math.cos(-gamma) * flameSize,
         y: (height * 0.5) + Math.sin(-gamma) * flameSize
     } });
-    candle.draw();
+    candle.draw(normTime);
     //repeat
     if (animating) requestAnimationFrame(loop);
 };

@@ -12,7 +12,7 @@ export default class Candle {
             flameStart: { x: width/2, y: height/2 }, //particle spawn position
             flameEnd: { x: width/2, y: 0 }, //particle focus position
             color: "white", //candle color
-            numParticles: 1500, //total particles in pool
+            numParticles: 1500, //total particles in pool (target)
             batch: 50, //create particles in batches
             rMultiplier: 0.9, //particle radius change per frame
             vxMultiplier: 0.95, //particle x movement change per frame
@@ -64,11 +64,13 @@ export default class Candle {
 }
 
 class CandleFlame {
+    #numParticles;
     #particles = [];
 
     constructor(ctx, options) {
         this.ctx = ctx;
         this.options = options;
+        this.#numParticles = options.numParticles;
     }
     #addParticle(p) {
         const {
@@ -93,11 +95,12 @@ class CandleFlame {
     #update() {
         const { numParticles, batch, flameEnd,
                 rMultiplier, vxMultiplier, vyMultiplier } = this.options;
+        this.#numParticles = Math.min(this.#numParticles, numParticles);
         //add particle?
         {
             const length = this.#particles.length;
-            if (length < numParticles) {
-                const newBatch = Math.min(batch, numParticles - length);
+            if (length < this.#numParticles) {
+                const newBatch = Math.min(batch, this.#numParticles - length);
                 for (let i=0; i<newBatch; i++) this.#addParticle();
             }
         }
@@ -115,7 +118,7 @@ class CandleFlame {
                 p.life--;
                 //remove or reset?
                 if (p.life <= 0 || p.r < 1) {
-                    if (this.#particles.length > numParticles)
+                    if (this.#particles.length > this.#numParticles)
                         this.#particles.splice(i, 1);
                     else this.#addParticle(p);
                 }
