@@ -61,6 +61,7 @@ export default class Candle {
         ctx.lineTo(flameStart.x, flameStart.y+maxRadius);
         ctx.stroke();
     }
+    getParticleCount() { return this.flame.getParticleCount(); }
 }
 
 class CandleFlame {
@@ -73,6 +74,7 @@ class CandleFlame {
         this.options = options;
         this.#numParticles = options.numParticles;
     }
+    getParticleCount() { return this.#particles.length; }
     #addParticle(p) {
         const {
             maxLife, minSpeed, maxSpeed, minRadius, maxRadius,

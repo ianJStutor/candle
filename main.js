@@ -26,12 +26,13 @@ function loop(t) {
     const { width, height } = ctx.canvas;
     //erase
     ctx.clearRect(0, 0, width, height);
-    //normTime reporting
+    //normTime reporting & particle count
     {
         ctx.fillStyle = "white";
         ctx.font = "16px Ariel";
         ctx.fillText(`tmin: ${normTimeMin}`, 5, 21);
         ctx.fillText(`tmax: ${normTimeMax}`, 5, 42);
+        ctx.fillText(`p: ${candle.getParticleCount()}`, 5, 63);
     }
     //orientation testing
     {
@@ -39,9 +40,9 @@ function loop(t) {
         ctx.save();
         ctx.fillStyle = "white";
         ctx.font = "16px Ariel";
-        ctx.fillText(`α: ${degToRad(alpha)}`, 5, 63);
-        ctx.fillText(`β: ${degToRad(beta)}`, 5, 84);
-        ctx.fillText(`γ: ${degToRad(gamma)}`, 5, 105);
+        ctx.fillText(`α: ${degToRad(alpha)}`, 5, 84);
+        ctx.fillText(`β: ${degToRad(beta)}`, 5, 105);
+        ctx.fillText(`γ: ${degToRad(gamma)}`, 5, 126);
         ctx.restore();
     }
     //touch testing
