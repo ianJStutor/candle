@@ -12,7 +12,7 @@ export default class Candle {
             flameStart: { x: width/2, y: height/2 }, //particle spawn position
             flameEnd: { x: width/2, y: 0 }, //particle focus position
             color: "white", //candle color
-            numParticles: 1500, //total particles in pool (target)
+            numParticles: 2500, //total particles in pool (target)
             batch: 50, //create particles in batches
             rMultiplier: 0.9, //particle radius change per frame
             vxMultiplier: 0.95, //particle x movement change per frame
@@ -33,7 +33,7 @@ export default class Candle {
     settings(overrides = {}) {
         this.options = Object.assign(this.options, overrides);
     }
-    draw() {
+    draw(normTime) { //normalized time based on target FPS
         const { ctx } = this;
         const { width, height } = ctx.canvas;
         const { x, y, w, h, color, flameStart, maxRadius, wickWidth } = this.options;
@@ -52,7 +52,7 @@ export default class Candle {
         ctx.closePath();
         ctx.fill();
         //flame
-        this.flame.draw();
+        this.flame.draw(normTime);
         //wick
         ctx.strokeStyle = "#00000033";
         ctx.lineWidth = wickWidth;
@@ -64,6 +64,7 @@ export default class Candle {
 }
 
 class CandleFlame {
+    #toleranceFPS = 1.25; //if normTime is greater, reduce numParticles
     #numParticles;
     #particles = [];
 
@@ -92,10 +93,14 @@ class CandleFlame {
         if (p) p = Object.assign(p, particle);
         else this.#particles.push(particle);
     }
-    #update() {
+    #update(normTime) {
         const { numParticles, batch, flameEnd,
                 rMultiplier, vxMultiplier, vyMultiplier } = this.options;
-        this.#numParticles = Math.min(this.#numParticles, numParticles);
+        //slow FPS?
+        {
+            this.#numParticles = Math.min(this.#numParticles, numParticles);
+            if (normTime >= this.#toleranceFPS) this.#numParticles -= batch;
+        }
         //add particle?
         {
             const length = this.#particles.length;
@@ -131,8 +136,8 @@ class CandleFlame {
             }
         }
     }
-    draw() {
-        this.#update();
+    draw(normTime) {
+        this.#update(normTime);
         const { ctx } = this;
         ctx.save();
         ctx.globalCompositeOperation = "lighter";
