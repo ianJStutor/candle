@@ -101,7 +101,7 @@ class CandleFlame {
         //slow FPS?
         {
             this.#numParticles = Math.min(this.#numParticles, numParticles);
-            if (normTime >= this.#toleranceFPS) this.#numParticles -= batch;
+            if (normTime >= this.#toleranceFPS) this.#numParticles -= 10;
         }
         //add particle?
         {
