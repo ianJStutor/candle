@@ -65,7 +65,8 @@ export default class Candle {
 }
 
 class CandleFlame {
-    #toleranceFPS = 1.25; //if normTime is greater, reduce numParticles
+    #toleranceMaxFPS = 1.25; //if normTime is greater, reduce numParticles
+    #toleranceMinFPS = 0.9; //if normTime is less, add to numParticles
     #numParticles;
     #particles = [];
 
@@ -101,7 +102,10 @@ class CandleFlame {
         //slow FPS?
         {
             this.#numParticles = Math.min(this.#numParticles, numParticles);
-            if (normTime >= this.#toleranceFPS) this.#numParticles -= 10;
+            if (normTime >= this.#toleranceMaxFPS) 
+                this.#numParticles = Math.max(this.#numParticles-10, 0);
+            else if (normTime <= this.#toleranceMinFPS)
+                this.#numParticles = Math.min(this.#numParticles+10, numParticles);
         }
         //add particle?
         {
