@@ -13,24 +13,35 @@ const targetFPS = 1000/60; // 60 frames per second
 
 var animating = true;
 var oldT;
+var normTimeMin;
+var normTimeMax;
 requestAnimationFrame(loop);
 function loop(t) {
     //FPS (calculate normalized time elapsed since previous frame)
     const normTime = (t - (oldT ?? t))/targetFPS;
+    if (!normTimeMin || normTime < normTimeMin) normTimeMin = normTime;
+    if (!normTimeMax || normTime > normTimeMax) normTimeMax = normTime;
     oldT = t;
     //dimensions
     const { width, height } = ctx.canvas;
     //erase
     ctx.clearRect(0, 0, width, height);
+    //normTime reporting
+    {
+        ctx.fillStyle = "white";
+        ctx.font = "16px Ariel";
+        ctx.fillText(`tmin: ${normTimeMin}`, 5, 21);
+        ctx.fillText(`tmax: ${normTimeMax}`, 5, 42);
+    }
     //orientation testing
     {
         const { alpha, beta, gamma } = orientation;
         ctx.save();
         ctx.fillStyle = "white";
         ctx.font = "16px Ariel";
-        ctx.fillText(`α: ${degToRad(alpha)}`, 5, 21);
-        ctx.fillText(`β: ${degToRad(beta)}`, 5, 42);
-        ctx.fillText(`γ: ${degToRad(gamma)}`, 5, 63);
+        ctx.fillText(`α: ${degToRad(alpha)}`, 5, 63);
+        ctx.fillText(`β: ${degToRad(beta)}`, 5, 84);
+        ctx.fillText(`γ: ${degToRad(gamma)}`, 5, 105);
         ctx.restore();
     }
     //touch testing
