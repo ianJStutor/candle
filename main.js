@@ -1,6 +1,7 @@
 import fullscreenCanvas from "./fullscreenCanvas.js";
 import watchOrientation from "./watchOrientation.js";
 import watchTouches from "./watchTouches.js";
+import watchAudio from "./watchAudio.js";
 import Candle from "./candle.js";
 import { degToRad } from "./lib.js";
 
@@ -10,6 +11,9 @@ const touches = watchTouches();
 const candle = new Candle(ctx, { color: "mintcream" });
 const flameSize = Math.min(ctx.canvas.width, ctx.canvas.height) * 1/5;
 const targetFPS = 1000/60; // 60 frames per second
+
+var audioAnalyzer;
+watchAudio(analyzer => audioAnalyzer = analyzer );
 
 var animating = true;
 var oldT;
@@ -60,6 +64,15 @@ function loop(t) {
             ctx.fillText(force, clientX, clientY);
         }
         ctx.restore();
+    }
+    //audio testing
+    {
+        if (audioAnalyzer) {
+            const bufferLength = audioAnalyzer.frequencyBinCount;
+            const dataArray = new Uint8Array(bufferLength);
+            audioAnalyzer.getByteFrequencyData(dataArray);
+            console.log(dataArray);
+        }
     }
     //candle
     const gamma = Math.max(Math.min(degToRad(orientation.gamma), 0.65), -0.65) +Math.PI/2;
