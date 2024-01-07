@@ -8,11 +8,7 @@ export default async function watchAudio(callback = () => {}) {
         const audioCtx = new AudioContext();
         const source = audioCtx.createMediaStreamSource(stream);
         const analyzer = audioCtx.createAnalyser(); //British spelling!!!
-        analyzer.minDecibels = -90;
-        analyzer.maxDecibels = -10;
-        analyzer.smoothingTimeConstant = 0.85;
         source.connect(analyzer);
-        analyzer.fftSize = 256;
         callback(analyzer);
     }
     catch (e) { console.error(e); }

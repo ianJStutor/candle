@@ -13,7 +13,13 @@ const flameSize = Math.min(ctx.canvas.width, ctx.canvas.height) * 1/5;
 const targetFPS = 1000/60; // 60 frames per second
 
 var audioAnalyzer;
-watchAudio(analyzer => audioAnalyzer = analyzer );
+watchAudio(analyzer => {
+    audioAnalyzer = analyzer;
+    audioAnalyzer.minDecibels = -90;
+    audioAnalyzer.maxDecibels = -10;
+    audioAnalyzer.smoothingTimeConstant = 0.85;
+    audioAnalyzer.fftSize = 256;
+});
 
 var animating = true;
 var oldT;
@@ -71,7 +77,12 @@ function loop(t) {
             const bufferLength = audioAnalyzer.frequencyBinCount;
             const dataArray = new Uint8Array(bufferLength);
             audioAnalyzer.getByteFrequencyData(dataArray);
-            console.log(dataArray);
+            ctx.save();
+            ctx.fillStyle = "pink";
+            for (let i=0; i<bufferLength; i++) {
+                ctx.fillRect(width - 5 - bufferLength*2 + i*2, 5, 2, Math.max(2, dataArray[i]/2));
+            }
+            ctx.restore();
         }
     }
     //candle
