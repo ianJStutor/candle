@@ -79,8 +79,9 @@ function loop(t) {
             audioAnalyzer.getByteFrequencyData(dataArray);
             ctx.save();
             ctx.fillStyle = "pink";
-            for (let i=0; i<bufferLength; i++) {
-                ctx.fillRect(width - 5 - bufferLength*2 + i*2, 5, 2, Math.max(2, dataArray[i]/2));
+            const len = Math.floor(bufferLength/2);
+            for (let i=0; i<len; i++) {
+                ctx.fillRect(width - 5 - len*2 + i*2, 5, 1, Math.max(1, dataArray[i]/2));
             }
             ctx.restore();
         }
