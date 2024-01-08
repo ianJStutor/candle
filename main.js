@@ -80,7 +80,7 @@ function loop(t) {
             ctx.save();
             const len = Math.floor(bufferLength/2);
             const blowTolerances = [
-                100, 100, 100, 50, 50, 50
+                200, 200, 200, 100, 100, 100
             ];
             for (let i=0; i<len; i++) {
                 if (blowTolerances[i] && dataArray[i] >= blowTolerances[i]) {
