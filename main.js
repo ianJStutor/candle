@@ -80,10 +80,10 @@ function loop(t) {
             ctx.save();
             // const len = Math.floor(bufferLength/2);
             const blowTolerances = [
-                170, 180, 180, 180, 180, 170, 150, 140, 115, 105,
-                105, 95, 95, 90, 90, 85, 80, 90, 90, 85, 85, 80, 75,
-                75, 85, 85, 90, 90, 80, 75, 70, 60, 60, 60, 60, 60,
-                60, 50, 35, 20, 5, 5
+                170, 180, 180, 180, 180, 160, 140, 130, 105, 95,
+                95, 85, 85, 80, 80, 75, 70, 80, 80, 75, 75, 70, 65,
+                65, 75, 75, 80, 80, 70, 65, 60, 50, 50, 50, 50, 50,
+                50, 40, 25, 10
             ];
             const len = blowTolerances.length;
             var isBlow = true;
@@ -95,7 +95,7 @@ function loop(t) {
                     ctx.fillStyle = "pink";
                     isBlow = false;
                 }
-                ctx.fillRect(width - 10 - len*2 + i*2, 5, 1, Math.max(1, dataArray[i]/2));
+                ctx.fillRect(width - 15 - len*2 + i*2, 5, 1, Math.max(1, dataArray[i]/2));
             }
             if (isBlow) {
                 ctx.font = "20px Ariel";
