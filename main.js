@@ -86,12 +86,22 @@ function loop(t) {
                 60, 50, 35, 20, 5, 5
             ];
             const len = blowTolerances.length;
+            var isBlow = true;
             for (let i=0; i<len; i++) {
                 if (blowTolerances[i] && dataArray[i] >= blowTolerances[i]) {
                     ctx.fillStyle = "lime";
                 }
-                else ctx.fillStyle = "pink";
+                else {
+                    ctx.fillStyle = "pink";
+                    isBlow = false;
+                }
                 ctx.fillRect(width - 10 - len*2 + i*2, 5, 1, Math.max(1, dataArray[i]/2));
+            }
+            if (isBlow) {
+                ctx.font = "20px Ariel";
+                ctx.textAlign = "right";
+                ctx.textBaseline = "top";
+                ctx.fillText("✔", 5, 5);
             }
             ctx.restore();
         }
