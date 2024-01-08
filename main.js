@@ -78,18 +78,21 @@ function loop(t) {
             const dataArray = new Uint8Array(bufferLength);
             audioAnalyzer.getByteFrequencyData(dataArray);
             ctx.save();
-            const len = Math.floor(bufferLength/2);
+            // const len = Math.floor(bufferLength/2);
             const blowTolerances = [
-                200, 200, 200, 100, 100, 100
+                180, 200, 205, 200, 180, 170, 150, 140, 115, 105,
+                105, 95, 95, 90, 90, 85, 80, 90, 90, 85, 85, 80, 75,
+                75, 85, 85, 90, 90, 80, 75, 70, 60, 60, 60, 60, 60,
+                60, 50, 35, 20, 5, 5
             ];
+            const len = blowTolerances.length;
             for (let i=0; i<len; i++) {
                 if (blowTolerances[i] && dataArray[i] >= blowTolerances[i]) {
                     ctx.fillStyle = "lime";
                 }
                 else ctx.fillStyle = "pink";
-                ctx.fillRect(width - 5 - len*2 + i*2, 5, 1, Math.max(1, dataArray[i]/2));
+                ctx.fillRect(width - 10 - len*2 + i*2, 5, 1, Math.max(1, dataArray[i]/2));
             }
-            console.log(dataArray);
             ctx.restore();
         }
     }
