@@ -88,7 +88,6 @@ function loop(t) {
                 }
                 else ctx.fillStyle = "pink";
                 ctx.fillRect(width - 5 - len*2 + i*2, 5, 1, Math.max(1, dataArray[i]/2));
-                if (blowTolerances[i] && dataArray[i] < blowTolerances[i]) blow = false;
             }
             ctx.restore();
         }
