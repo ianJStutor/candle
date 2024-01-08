@@ -10,7 +10,7 @@ const orientation = watchOrientation();
 const touches = watchTouches();
 const candle = new Candle(ctx, { color: "mintcream" });
 const flameSize = Math.min(ctx.canvas.width, ctx.canvas.height) * 1/5;
-const targetFPS = 1000/60; // 60 frames per second
+const targetFPS = 1000/60; // 16.6667 ms per frame
 
 var audioAnalyzer;
 watchAudio(analyzer => {
@@ -80,8 +80,20 @@ function loop(t) {
             ctx.save();
             ctx.fillStyle = "pink";
             const len = Math.floor(bufferLength/2);
+            const blowTolerances = [
+                100
+            ];
+            var blow = true;
             for (let i=0; i<len; i++) {
-                ctx.fillRect(width - 5 - len*2 + i*2, 5, 1, Math.max(1, dataArray[i]/2));
+                ctx.fillRect(width - 10 - len*2 + i*2, 5, 1, Math.max(1, dataArray[i]/2));
+                if (blowTolerances[i] && dataArray[i] < blowTolerances[i]) blow = false;
+            }
+            if (blow) {
+                ctx.fillStyle = "lime";
+                ctx.font = "20px Ariel";
+                ctx.textAlign = "right";
+                ctx.textBaseline = "top";
+                ctx.fillText("✔", 5, 5);
             }
             ctx.restore();
         }
