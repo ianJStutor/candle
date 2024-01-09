@@ -80,13 +80,13 @@ function loop(t) {
             ctx.save();
             // const len = Math.floor(bufferLength/2);
             const blowTolerances = [
-                150, 160, 160, 140, 140, 120, 100, 90, 85, 75,
+                150, 160, 160, 120, 120, 100, 90, 85, 85, 75,
                 75, 65, 65, 60, 60, 55, 50, 60, 60, 55, 55, 50, 45,
                 45, 55, 55, 60, 60, 50, 45, 40, 30, 30, 30, 30, 30,
                 30, 20, 15
             ];
             const len = blowTolerances.length;
-            var isBlow = true;
+            let isBlow = true;
             for (let i=0; i<len; i++) {
                 ctx.fillStyle = "pink";
                 if (blowTolerances[i]) {
@@ -102,6 +102,7 @@ function loop(t) {
                 ctx.textAlign = "right";
                 ctx.textBaseline = "top";
                 ctx.fillText("✔", 5, 5);
+                console.log("blowing");
             }
             ctx.restore();
         }
