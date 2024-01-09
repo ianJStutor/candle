@@ -83,7 +83,7 @@ function loop(t) {
                 150, 160, 160, 120, 120, 100, 90, 85, 85, 75,
                 75, 65, 65, 60, 60, 55, 50, 60, 60, 55, 55, 50, 45,
                 45, 55, 55, 60, 60, 50, 45, 40, 30, 30, 30, 30, 30,
-                30, 20, 15
+                30, 20, 10
             ];
             const len = blowTolerances.length;
             let isBlow = true;
@@ -98,10 +98,10 @@ function loop(t) {
                 ctx.fillRect(width - 15 - len*2 + i*2, 5, 1, Math.max(1, dataArray[i]/2));
             }
             if (isBlow) {
-                ctx.font = "20px Ariel";
-                ctx.textAlign = "right";
-                ctx.textBaseline = "top";
-                ctx.fillText("✔", 5, 5);
+                ctx.font = "100px Ariel";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText("+", width/2, height/2); //✔
                 console.log("blowing");
             }
             ctx.restore();
