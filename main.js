@@ -88,12 +88,12 @@ function loop(t) {
             const len = blowTolerances.length;
             var isBlow = true;
             for (let i=0; i<len; i++) {
-                if (blowTolerances[i] && dataArray[i] >= blowTolerances[i]) {
-                    ctx.fillStyle = "lime";
-                }
-                else {
-                    ctx.fillStyle = "pink";
-                    isBlow = false;
+                ctx.fillStyle = "pink";
+                if (blowTolerances[i]) {
+                    if (dataArray[i] >= blowTolerances[i]) {
+                        ctx.fillStyle = "lime";
+                    }
+                    else isBlow = false;
                 }
                 ctx.fillRect(width - 15 - len*2 + i*2, 5, 1, Math.max(1, dataArray[i]/2));
             }
