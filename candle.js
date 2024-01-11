@@ -26,6 +26,7 @@ export default class Candle {
             maxAngle: 0, //radians
             minHue: -30, //reddish in hsl gamut
             maxHue: 60, //yellowish in hsl gamut
+            tailLength: 5, //number of previous points to track
             wickWidth: Math.max(width/100, 3)
         }, overrides);
         this.flame = new CandleFlame(this.ctx, this.options);
@@ -89,15 +90,14 @@ class CandleFlame {
         const vy = Math.sin(angle) * speed;
         const x = flameStart.x;
         const y = flameStart.y;
-        const prevX = x;
-        const prevY = y;
+        const prev = [{x, y}];
         const life = maxLife;
-        const particle = { x, y, prevX, prevY, vx, vy, r, hue, life, maxLife };
+        const particle = { x, y, prev, vx, vy, r, hue, life, maxLife };
         if (p) p = Object.assign(p, particle);
         else this.#particles.push(particle);
     }
     #update(normTime) {
-        const { numParticles, batch, flameEnd,
+        const { numParticles, batch, flameEnd, tailLength,
                 rMultiplier, vxMultiplier, vyMultiplier } = this.options;
         //slow FPS?
         {
@@ -119,8 +119,8 @@ class CandleFlame {
         {
             for (let i=this.#particles.length-1; i>=0; i--) {
                 let p = this.#particles[i];
-                p.prevX = p.x;
-                p.prevY = p.y;
+                p.prev.push({x: p.x, y: p.y});
+                if (p.prev.length > tailLength) p.prev.shift();
                 p.x += p.vx;
                 p.y += p.vy;
                 p.vx *= vxMultiplier;
@@ -148,11 +148,14 @@ class CandleFlame {
         ctx.save();
         ctx.globalCompositeOperation = "lighter";
         ctx.lineCap = "round";
-        for (let { x, y, prevX, prevY, r, hue } of this.#particles) {
+        for (let { x, y, prev, r, hue } of this.#particles) {
             ctx.strokeStyle = `hsla(${hue}deg, 100%, 15%, 0.25)`;
             ctx.lineWidth = r;
             ctx.beginPath();
-            ctx.moveTo(prevX, prevY);
+            ctx.moveTo(prev[0].x, prev[0].y);
+            for (let i=1; i<prev.length; i++) {
+                ctx.lineTo(prev[i].x, prev[i].y);
+            }
             ctx.lineTo(x, y);
             ctx.stroke();
         }
