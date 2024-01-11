@@ -26,7 +26,7 @@ export default class Candle {
             maxAngle: 0, //radians
             minHue: -30, //reddish in hsl gamut
             maxHue: 60, //yellowish in hsl gamut
-            tailLength: 5, //number of previous points to track
+            tailLength: 3, //number of previous points to track
             wickWidth: Math.max(width/100, 3)
         }, overrides);
         this.flame = new CandleFlame(this.ctx, this.options);
