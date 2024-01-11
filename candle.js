@@ -26,7 +26,7 @@ export default class Candle {
             maxAngle: 0, //radians
             minHue: -30, //reddish in hsl gamut
             maxHue: 60, //yellowish in hsl gamut
-            tailLength: 3, //number of previous points to track
+            tailLength: 5, //number of previous points to track
             wickWidth: Math.max(width/100, 3)
         }, overrides);
         this.flame = new CandleFlame(this.ctx, this.options);
@@ -102,9 +102,9 @@ class CandleFlame {
         {
             this.#numParticles = Math.min(this.#numParticles, numParticles);
             if (normTime >= this.#toleranceMaxFPS) 
-                this.#numParticles = Math.max(this.#numParticles-batch, 0);
+                this.#numParticles = Math.max(this.#numParticles-10, 0);
             else if (normTime <= this.#toleranceMinFPS)
-                this.#numParticles = Math.min(this.#numParticles+batch, numParticles);
+                this.#numParticles = Math.min(this.#numParticles+10, numParticles);
         }
         //add particle?
         {
