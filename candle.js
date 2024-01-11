@@ -20,8 +20,8 @@ export default class Candle {
             maxLife: 25, //frames before respawn
             minSpeed: 2, //pixels per frame
             maxSpeed: 6, //pixels per frame
-            minRadius: Math.max(width/35, 10), //pixels
-            maxRadius: Math.max(width/25, 15), //pixels
+            minRadius: Math.max(width/35, 12), //pixels
+            maxRadius: Math.max(width/25, 20), //pixels
             minAngle: -Math.PI, //radians
             maxAngle: 0, //radians
             minHue: -30, //reddish in hsl gamut
