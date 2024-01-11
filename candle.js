@@ -97,15 +97,14 @@ class CandleFlame {
         else this.#particles.push(particle);
     }
     #update(normTime) {
-        const { numParticles, batch, flameEnd, tailLength,
-                rMultiplier, vxMultiplier, vyMultiplier } = this.options;
+        const { numParticles, batch, flameEnd, tailLength,                rMultiplier, vxMultiplier, vyMultiplier } = this.options;
         //slow FPS?
         {
             this.#numParticles = Math.min(this.#numParticles, numParticles);
             if (normTime >= this.#toleranceMaxFPS) 
-                this.#numParticles = Math.max(this.#numParticles-10, 0);
+                this.#numParticles = Math.max(this.#numParticles-batch, 0);
             else if (normTime <= this.#toleranceMinFPS)
-                this.#numParticles = Math.min(this.#numParticles+10, numParticles);
+                this.#numParticles = Math.min(this.#numParticles+batch, numParticles);
         }
         //add particle?
         {
