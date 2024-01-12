@@ -98,11 +98,7 @@ function loop(t) {
                 ctx.fillRect(width - 15 - len*2 + i*2, 5, 1, Math.max(1, dataArray[i]/2));
             }
             if (isBlow) {
-                ctx.font = "100px Ariel";
-                ctx.textAlign = "center";
-                ctx.textBaseline = "middle";
-                ctx.fillText("+", width/2, height/2); //✔
-                console.log("blowing");
+                candle.reset(2000); //will extinguish then relight after 2 seconds
             }
             ctx.restore();
         }
