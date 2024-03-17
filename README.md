@@ -4,11 +4,7 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-<<<<<<< HEAD
 ## Live Site
-=======
-## Description
->>>>>>> ade1d1d5a47bfad5d5586b73468f77939164d300
 
 > [https://ianjstutor.github.io/candle/](https://ianjstutor.github.io/candle/)
 
@@ -22,12 +18,4 @@ Built with vanilla JavaScript, my favorite flavor!
 
 ## Author
 
-<<<<<<< HEAD
 > [Ian Marshall](https://ianjstutor.github.io/ian-marshall/)
-=======
-> [Ian Marshall](https://ianjstutor.github.io/ian-marshall/)
-
-## Live Site
-
-> [https://ianjstutor.github.io/candle/](https://ianjstutor.github.io/candle/)
->>>>>>> ade1d1d5a47bfad5d5586b73468f77939164d300
