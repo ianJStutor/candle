@@ -1,5 +1,3 @@
-console.log("watchTouches.js");
-
 export default function watchTouches() {
     const touches = [];
     window?.addEventListener("touchstart", handleTouch);
