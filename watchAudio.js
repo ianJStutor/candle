@@ -1,5 +1,3 @@
-console.log("watchAudio.js");
-
 export default async function watchAudio(callback = () => {}) {
     if (!navigator?.mediaDevices?.getUserMedia) return console.error("navigator.mediaDevices.getUserMedia() not supported");
 
